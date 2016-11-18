@@ -12,11 +12,12 @@ executor = concurrent.futures.ProcessPoolExecutor(max_workers=2)
 loop = asyncio.get_event_loop()
 loop.set_default_executor(executor)
 
-import config, biothings
+from wdbiothings import config
+import biothings
 
 biothings.config_for_app(config)
 
-import contrib
+from wdbiothings import contrib
 import biothings.dataload.uploader as uploader
 import biothings.dataload.dumper as dumper
 
