@@ -45,9 +45,11 @@ class InterproProteinUploader(uploader.BaseSourceUploader):
 
         params = {'token': JENKINS_TOKEN,
                   'INTERPROVERSION': version,
-                  'INTERPRODATE': date}
-        url = JENKINS_URL + "job/test/buildWithParameters"
-        requests.get(url, params=params)
+                  'INTERPRODATE': date,
+                  'job': 'interpro'
+                  }
+        url = JENKINS_URL + "buildByToken/buildWithParameters"
+        r = requests.get(url, params=params)
 
     @classmethod
     def get_mapping(cls):
