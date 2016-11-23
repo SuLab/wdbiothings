@@ -1,7 +1,9 @@
 import biothings.dataload.uploader as uploader
+import requests
 from wdbiothings import config
 
 from .parser import parse_interpro_xml, parse_release_info, parse_protein_ipr
+from wdbiothings.local import JENKINS_TOKEN, JENKINS_URL
 
 DEBUG = False
 
@@ -36,20 +38,16 @@ class InterproProteinUploader(uploader.BaseSourceUploader):
         print("done uploading interpro_protein")
         release_info = list(parse_release_info(self.data_folder))
         interpro_release_info = [x for x in release_info if x['_id'] == "INTERPRO"][0]
+        date = interpro_release_info['file_date']
+        version = interpro_release_info['version']
 
         # TODO: check that interpro upload is completed
-        """  # trigger bot run
-        log_path = ItemsBot.main(interpro_release_info, mongo_coll="interpro", debug=DEBUG)
-        print("done with interpro items. parsing log: {}".format(log_path))
-        #bot_log_parser.process_log(log_path)
-        upload_log(log_path)
-        print("running interpro-protein")
-        log_path = ProteinBot.main(interpro_release_info, mongo_coll="interpro_protein", taxon="Q15978631")
-        print("done with interpro-protein. parsing log: {}".format(log_path))
-        #bot_log_parser.process_log(log_path)
-        upload_log(log_path)
-        print("done")
-        """
+
+        params = {'token': JENKINS_TOKEN,
+                  'INTERPROVERSION': version,
+                  'INTERPRODATE': date}
+        url = JENKINS_URL + "job/test/buildWithParameters"
+        requests.get(url, params=params)
 
     @classmethod
     def get_mapping(cls):
