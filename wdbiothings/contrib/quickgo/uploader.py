@@ -15,6 +15,7 @@ hub>
 hub> i.post_update_data()
 
 """
+from itertools import chain
 
 
 class QuickgoUploader(uploader.BaseSourceUploader):
@@ -23,13 +24,15 @@ class QuickgoUploader(uploader.BaseSourceUploader):
 
     def load_data(self, data_folder):
         self.data_folder = data_folder
-        df = pd.read_csv(os.path.join(data_folder, "quickgo.tsv.gz"), sep='\t')
-        df = df.query("Evidence != 'ND'")
-        del df['With']
-        del df['Symbol']
-        del df['GO Name']
-        del df['Date']
-        return (x.to_dict() for _, x in df.iterrows())
+        df_iter = pd.read_csv(os.path.join(data_folder, "quickgo.tsv.gz"), sep='\t', iterator=True, chunksize=10000)
+        for df in df_iter:
+            df = df.query("Evidence != 'ND'")
+            del df['With']
+            del df['Symbol']
+            del df['GO Name']
+            del df['Date']
+            for _, x in df.iterrows():
+                yield x.to_dict()
 
     def post_update_data(self):
         print("done uploading quickgo")
