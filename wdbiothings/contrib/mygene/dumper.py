@@ -3,20 +3,20 @@ from datetime import datetime
 
 import biothings
 import requests
-import mygene
 from biothings.dataload.dumper import HTTPDumper
-from dateutil import parser
 from wdbiothings import config
 from wdbiothings.config import DATA_ARCHIVE_ROOT
 
 biothings.config_for_app(config)
-
+"""
+TODO: This is using v2 of mygene api which has a bug that doesn't cap the size limit...
+Not sure if it'll work once I'm requesting 150 microbial genomes also
+"""
 
 class HTTPDumperParams(HTTPDumper):
     """
     subclass httpdumper so I can make a GET request with params
     """
-    mg = mygene.MyGeneInfo()
 
     def download(self, remoteurl, localfile):
         self.prepare_local_folders(localfile)
@@ -51,9 +51,11 @@ class MyGeneDumper(HTTPDumperParams):
             self.release = datetime.now().strftime("%Y%m%d")
             self.to_dump = [{"remote": 'http://mygene.info/v2/query/',
                              "local": os.path.join(self.new_data_folder, "mygene.json")}]
-            self.logger.info("remote ({}) is newer than current ({})".format(self.new_timestamp, self.current_timestamp))
+            self.logger.info(
+                "remote ({}) is newer than current ({})".format(self.new_timestamp, self.current_timestamp))
         else:
-            self.logger.info("remote ({}) is not newer than current ({})".format(self.new_timestamp, self.current_timestamp))
+            self.logger.info(
+                "remote ({}) is not newer than current ({})".format(self.new_timestamp, self.current_timestamp))
 
     def remote_is_newer(self):
         mygene_metadata = requests.get("http://mygene.info/v2/metadata").json()
