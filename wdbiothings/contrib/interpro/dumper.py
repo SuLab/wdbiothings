@@ -18,7 +18,7 @@ class InterproDumper(FTPDumper):
     SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)
     FILES = ["interpro.xml.gz", "protein2ipr.dat.gz"]
 
-    SCHEDULE = "* 0 * * *"
+    SCHEDULE = "0 4 * * 0"
 
     def get_newest_info(self):
         release_folder = self.client.pwd()

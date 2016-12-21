@@ -15,7 +15,7 @@ biothings.config_for_app(config)
 class MyGeneDumper(HTTPDumper):
     SRC_NAME = "mygene"
     SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)
-    SCHEDULE = "* 0 * * *"
+    SCHEDULE = "0 4 * * 0" # “At 04:00 on Sunday.”
 
     taxids = "559292,123,10090,9606"
     params = dict(q="__all__", species=taxids, entrezonly="true", size="1000",
