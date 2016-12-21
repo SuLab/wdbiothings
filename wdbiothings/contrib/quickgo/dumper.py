@@ -49,6 +49,8 @@ class HTTPPostDumper(HTTPDumper):
 
 
 class QuickgoDumper(HTTPPostDumper):
+    # todo: download from here: http://www.ebi.ac.uk/GOA/faq#1
+    # ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT
     SRC_NAME = "quickgo"
     SCHEDULE = "0 2 * * 2"  # “At 02:00 on Tuesday.”
     SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)
