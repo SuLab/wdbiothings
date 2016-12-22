@@ -1,19 +1,8 @@
+from wdbiothings.local import *
 from wdbiothings.config_common import *
-from wdbiothings.local import APP_PATH, DATA_ARCHIVE_ROOT
 
-
-"""
-ES_HOST = 'localhost:9200'
-
-ES_INDEX_NAME = "interpro"
-ES_INDEX_NAME_TIER1 = "interpro"
-ES_INDEX_TYPE = "interpro"
-
-
-ES_SCROLL_TIME = '1m'
-ES_SCROLL_SIZE = 10
-"""
-
+DATA_SRC_SERVER_USERNAME = None
+DATA_SRC_SERVER_PASSWORD = None
 
 # relevant for running in prod
 INCLUDE_DOCS = False  # if True, include the links to mygene.info docs

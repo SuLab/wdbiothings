@@ -1,6 +1,6 @@
 # LOGGING #
 import logging
-LOGGER_NAME = "mygene.hub"
+LOGGER_NAME = "wikidata.hub"
 # this will affect any logging calls
 logger = logging.getLogger(LOGGER_NAME)
 logger.setLevel(logging.DEBUG)

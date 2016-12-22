@@ -15,8 +15,9 @@ class MyGeneUploader(uploader.BaseSourceUploader):
             for doc in d:
                 yield doc
 
-    def post_update_data(self):
-        print("done uploading mygene")
+    def post_update_data(self, *args, **kwargs):
+        super().post_update_data(*args, **kwargs)
+        self.logger.info("done uploading mygene")
 
         params = {'token': JENKINS_TOKEN,
                   'job': 'GeneBot_yeast'
@@ -25,7 +26,7 @@ class MyGeneUploader(uploader.BaseSourceUploader):
         r = requests.get(url, params=params)
 
         # TODO add other jobs
-        print("job triggered")
+        self.logger.info("job triggered")
 
     @classmethod
     def get_mapping(cls):
@@ -34,10 +35,11 @@ class MyGeneUploader(uploader.BaseSourceUploader):
 
 class MyGeneSourcesUploader(uploader.BaseSourceUploader):
     name = "mygene_sources"
-    main_source = "mygene"
+    main_source = "mygene_sources"
 
     def load_data(self, data_folder):
-        d = requests.get("http://mygene.info/v2/metadata").json()
+        with open(os.path.join(data_folder, "metadata.json")) as f:
+            d = json.load(f)
         for doc in [d['src_version']]:
             yield doc
 

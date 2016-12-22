@@ -65,9 +65,35 @@ class MyGeneDumper(HTTPDumper):
             json.dump(d, f)
 
 
+class MyGeneSourcesDumper(MyGeneDumper):
+    SRC_NAME = "mygene_sources"
+    SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)
+
+    def create_todump_list(self, force=False):
+        if force or self.remote_is_newer():
+            self.release = self.new_timestamp.strftime("%Y%m%d")
+            self.to_dump = [{"remote": 'http://mygene.info/v3/metadata',
+                             "local": os.path.join(self.new_data_folder, "metadata.json")}]
+            self.logger.info(
+                "remote ({}) is newer than current ({})".format(self.new_timestamp, self.current_timestamp))
+        else:
+            self.logger.info(
+                "remote ({}) is not newer than current ({})".format(self.new_timestamp, self.current_timestamp))
+
+    def download(self, remoteurl, localfile):
+        self.prepare_local_folders(localfile)
+        self.logger.debug("Downloading '%s'" % remoteurl)
+
+        d = self.client.get(remoteurl).json()
+        print(remoteurl)
+        print(localfile)
+
+        with open(localfile, 'w') as f:
+            json.dump(d, f)
+
 def main():
-    dumper = MyGeneDumper()
-    dumper.dump()
+    dumper = MyGeneSourcesDumper()
+    dumper.dump(force=True)
 
 
 if __name__ == "__main__":
