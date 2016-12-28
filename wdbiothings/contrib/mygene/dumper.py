@@ -20,7 +20,7 @@ class MyGeneDumper(HTTPDumper):
     taxids = "559292,123,10090,9606"
     params = dict(q="__all__", species=taxids, entrezonly="true", size="1000",
                   fields="entrezgene,ensembl,locus_tag,genomic_pos,name,symbol,uniprot,refseq,taxid," +
-                         "type_of_gene,genomic_pos_hg19,MGI,SGD,HGNC")
+                         "type_of_gene,genomic_pos_hg19,MGI,SGD,HGNC,homologene")
 
     def __init__(self, src_name=None, src_root_folder=None, no_confirm=True, archive=True):
         super().__init__(src_name, src_root_folder, no_confirm, archive)
