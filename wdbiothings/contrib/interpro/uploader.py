@@ -10,6 +10,7 @@ DEBUG = False
 class InterproUploader(uploader.BaseSourceUploader):
     name = "interpro"
     main_source = "interpro"
+    keep_archive = 1
 
     def load_data(self, data_folder):
         self.data_folder = data_folder

@@ -8,6 +8,7 @@ from wdbiothings.local import JENKINS_TOKEN, JENKINS_URL
 class MyGeneUploader(uploader.BaseSourceUploader):
     name = "mygene"
     main_source = "mygene"
+    keep_archive = 1
 
     def load_data(self, data_folder):
         with open(os.path.join(data_folder, "mygene.json")) as f:
@@ -36,6 +37,7 @@ class MyGeneUploader(uploader.BaseSourceUploader):
 class MyGeneSourcesUploader(uploader.BaseSourceUploader):
     name = "mygene_sources"
     main_source = "mygene_sources"
+    keep_archive = 1
 
     def load_data(self, data_folder):
         with open(os.path.join(data_folder, "metadata.json")) as f:

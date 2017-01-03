@@ -21,6 +21,7 @@ from itertools import chain
 class QuickgoUploader(uploader.BaseSourceUploader):
     name = "quickgo"
     main_source = "quickgo"
+    keep_archive = 1
 
     def load_data(self, data_folder):
         self.data_folder = data_folder
