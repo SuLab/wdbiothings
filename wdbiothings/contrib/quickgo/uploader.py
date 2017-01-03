@@ -43,7 +43,7 @@ class QuickgoUploader(uploader.BaseSourceUploader):
 
         params = {'token': JENKINS_TOKEN,
                   'job': 'GOBot',
-                  'release': release
+                  'RETRIEVED': release
                   }
         url = JENKINS_URL + "buildByToken/buildWithParameters"
         r = requests.get(url, params=params)
