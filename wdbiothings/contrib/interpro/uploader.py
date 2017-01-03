@@ -15,7 +15,8 @@ class InterproUploader(uploader.BaseSourceUploader):
         self.data_folder = data_folder
         return parse_interpro_xml(data_folder)
 
-    def post_update_data(self):
+    def post_update_data(self, *args, **kwargs):
+        super().post_update_data(*args, **kwargs)
         print("done uploading interpro")
 
     @classmethod
@@ -34,7 +35,8 @@ class InterproProteinUploader(uploader.BaseSourceUploader):
         p = parse_protein_ipr(data_folder, ipr_items, debug=DEBUG)
         return p
 
-    def post_update_data(self):
+    def post_update_data(self, *args, **kwargs):
+        super().post_update_data(*args, **kwargs)
         print("done uploading interpro_protein")
         release_info = list(parse_release_info(self.data_folder))
         interpro_release_info = [x for x in release_info if x['_id'] == "INTERPRO"][0]

@@ -26,7 +26,7 @@ class MyGeneUploader(uploader.BaseSourceUploader):
         r = requests.get(url, params=params)
 
         # TODO add other jobs
-        self.logger.info("job triggered")
+        self.logger.info("job triggered: {}".format(r.text))
 
     @classmethod
     def get_mapping(cls):

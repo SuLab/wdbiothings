@@ -34,7 +34,8 @@ class QuickgoUploader(uploader.BaseSourceUploader):
             for _, x in df.iterrows():
                 yield x.to_dict()
 
-    def post_update_data(self):
+    def post_update_data(self, *args, **kwargs):
+        super().post_update_data(*args, **kwargs)
         print("done uploading quickgo")
         src_doc = self.src_dump.find_one({'_id': "quickgo"})
         release = src_doc.get("release", "")
@@ -46,6 +47,8 @@ class QuickgoUploader(uploader.BaseSourceUploader):
                   }
         url = JENKINS_URL + "buildByToken/buildWithParameters"
         r = requests.get(url, params=params)
+
+        self.logger.info("job triggered: {}".format(r.text))
 
     @classmethod
     def get_mapping(cls):
