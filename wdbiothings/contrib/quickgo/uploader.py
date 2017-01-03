@@ -36,13 +36,12 @@ class QuickgoUploader(uploader.BaseSourceUploader):
 
     def post_update_data(self, *args, **kwargs):
         super().post_update_data(*args, **kwargs)
-        print("done uploading quickgo")
+        self.logger.info("done uploading quickgo")
         src_doc = self.src_dump.find_one({'_id': "quickgo"})
         release = src_doc.get("release", "")
-        print(release)
 
         params = {'token': JENKINS_TOKEN,
-                  'job': 'quickgo',
+                  'job': 'GOBot',
                   'release': release
                   }
         url = JENKINS_URL + "buildByToken/buildWithParameters"
