@@ -12,21 +12,21 @@ class MyGeneUploader(uploader.BaseSourceUploader):
 
     def load_data(self, data_folder):
         with open(os.path.join(data_folder, "mygene.json")) as f:
-            d = json.load(f)
-            for doc in d:
+            for line in f:
+                doc = json.loads(line)
                 yield doc
 
     def post_update_data(self, *args, **kwargs):
         super().post_update_data(*args, **kwargs)
         self.logger.info("done uploading mygene")
 
+        # TODO add correct jobs
         params = {'token': JENKINS_TOKEN,
-                  'job': 'GeneBot_yeast'
+                  #'job': 'GeneBot_yeast'
                   }
         url = JENKINS_URL + "buildByToken/buildWithParameters"
         r = requests.get(url, params=params)
 
-        # TODO add other jobs
         self.logger.info("job triggered: {}".format(r.text))
 
     @classmethod

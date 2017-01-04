@@ -4,6 +4,7 @@ from mygene import MyGeneInfo
 import biothings
 import requests
 from biothings.dataload.dumper import HTTPDumper
+from scheduled_bots.geneprotein.MicrobeBotResources import get_ref_microbe_taxids
 from wdbiothings import config
 from wdbiothings.config import DATA_ARCHIVE_ROOT
 import json
@@ -17,17 +18,18 @@ class MyGeneDumper(HTTPDumper):
     SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)
     SCHEDULE = "0 4 * * 0" # “At 04:00 on Sunday.”
 
-    taxids = "559292,123,10090,9606"
-    params = dict(q="__all__", species=taxids, entrezonly="true", size="1000",
-                  fields="entrezgene,ensembl,locus_tag,genomic_pos,name,symbol,uniprot,refseq,taxid," +
-                         "type_of_gene,genomic_pos_hg19,MGI,SGD,HGNC,homologene")
-
     def __init__(self, src_name=None, src_root_folder=None, no_confirm=True, archive=True):
         super().__init__(src_name, src_root_folder, no_confirm, archive)
-        print(self.src_doc)
         self.current_timestamp = datetime.strptime(self.src_doc["release"], "%Y%m%d") if self.src_doc.get('release', False) else None
-        print(self.current_timestamp)
         self.new_timestamp = None
+
+        df = get_ref_microbe_taxids()
+        ref_taxids = list(map(str, df['taxid'].tolist()))
+        taxids = ','.join(['3702', '559292', '123', '10090', '9606'] + ref_taxids)
+        self.params = dict(q="__all__", species=taxids, entrezonly="true", size="1000",
+                      fields="entrezgene,ensembl,locus_tag,genomic_pos,name,symbol,uniprot,refseq,taxid," +
+                             "type_of_gene,genomic_pos_hg19,MGI,SGD,HGNC,homologene")
+
 
     def create_todump_list(self, force=False):
         if force or self.remote_is_newer():
@@ -60,9 +62,10 @@ class MyGeneDumper(HTTPDumper):
         params = self.params
         q = mg.query(params['q'], fields=params['fields'], species=params['species'],
                      size=1000, fetch_all=True, entrezonly=True)
-        d = list(q)
+
         with open(localfile, 'w') as f:
-            json.dump(d, f)
+            for doc in q:
+                f.write(json.dumps(doc) + "\n")
 
 
 class MyGeneSourcesDumper(MyGeneDumper):
