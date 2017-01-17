@@ -20,14 +20,12 @@ class MyGeneUploader(uploader.BaseSourceUploader):
         super().post_update_data(*args, **kwargs)
         self.logger.info("done uploading mygene")
 
-        # TODO add correct jobs
-        params = {'token': JENKINS_TOKEN,
-                  #'job': 'GeneBot_yeast'
-                  }
-        url = JENKINS_URL + "buildByToken/buildWithParameters"
-        r = requests.get(url, params=params)
-
-        self.logger.info("job triggered: {}".format(r.text))
+        jobs = ['GeneBot_mouse_rat_yeast', 'GeneBot_Homo_sapiens']
+        for job in jobs:
+            params = {'token': JENKINS_TOKEN,  'job': job }
+            url = JENKINS_URL + "buildByToken/buildWithParameters"
+            r = requests.get(url, params=params)
+            self.logger.info("job {} triggered: {}".format(job, r.text))
 
     @classmethod
     def get_mapping(cls):
