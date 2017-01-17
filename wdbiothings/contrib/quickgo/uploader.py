@@ -42,7 +42,7 @@ class QuickgoUploader(uploader.BaseSourceUploader):
         release = src_doc.get("release", "")
 
         params = {'token': JENKINS_TOKEN,
-                  'job': 'GOBot',
+                  'job': 'GOBot_bigmem',
                   'RETRIEVED': release
                   }
         url = JENKINS_URL + "buildByToken/buildWithParameters"

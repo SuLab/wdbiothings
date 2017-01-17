@@ -53,6 +53,7 @@ class InterproProteinUploader(uploader.BaseSourceUploader):
                   }
         url = JENKINS_URL + "buildByToken/buildWithParameters"
         r = requests.get(url, params=params)
+        self.logger.info("job {} triggered: {}".format('interpro', r.text))
 
     @classmethod
     def get_mapping(cls):
