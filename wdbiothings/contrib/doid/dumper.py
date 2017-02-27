@@ -18,6 +18,10 @@ biothings.config_for_app(config)
 
 
 def get_latest_release():
+    """
+
+    :return: str
+    """
     url = "https://api.github.com/repos/DiseaseOntology/HumanDiseaseOntology/contents/src/ontology/releases"
     res = requests.get(url).json()
     latest_release = max(res, key=lambda x: datetime.strptime(x['name'], '%Y-%m-%d'))['name']
@@ -39,7 +43,7 @@ class DoidDumper(HTTPDumper):
             print("Downloading DOID: {}".format(self.latest_release))
             self.logger.info("Downloading DOID: {}".format(self.latest_release))
             self.release = self.latest_release
-            self.to_dump = [{'remote': 'http://purl.obolibrary.org/obo/doid/releases/2017-01-27/doid.owl',
+            self.to_dump = [{'remote': 'http://purl.obolibrary.org/obo/doid/releases/{}/doid.owl'.format(self.latest_release),
                              'local': os.path.join(self.new_data_folder, "doid/doid.owl")}]
         else:
             print("Skipping DOID: {}".format(self.latest_release))
