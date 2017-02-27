@@ -22,7 +22,7 @@ class DoidUploader(uploader.BaseSourceUploader):
 
         job = 'Disease_Ontology'
         params = {'token': JENKINS_TOKEN, 'job': job,
-                  'owl': "http://purl.obolibrary.org/obo/doid/releases/{}/doid.owl".format(release)}
+                  'OWL': "http://purl.obolibrary.org/obo/doid/releases/{}/doid.owl".format(release)}
         url = JENKINS_URL + "buildByToken/buildWithParameters"
         r = requests.get(url, params=params)
         self.logger.info("job {} triggered: {}".format(job, r.text))
