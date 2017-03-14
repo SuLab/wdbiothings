@@ -45,7 +45,7 @@ class PhenocartaGWASDumper(HTTPDumper):
 
 def main(force=False):
     dumper = PhenocartaGWASDumper()
-    dumper.dump(force=False)
+    dumper.dump(force=force)
 
 
 if __name__ == "__main__":
