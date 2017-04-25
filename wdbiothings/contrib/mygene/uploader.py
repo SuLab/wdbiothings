@@ -20,7 +20,7 @@ class MyGeneUploader(uploader.BaseSourceUploader):
         super().post_update_data(*args, **kwargs)
         self.logger.info("done uploading mygene")
 
-        jobs = ['GeneBot_mouse_rat_yeast', 'GeneBot_Homo_sapiens']
+        jobs = ['GeneBot_AGR', 'GeneBot_Homo_sapiens']
         for job in jobs:
             params = {'token': JENKINS_TOKEN,  'job': job }
             url = JENKINS_URL + "buildByToken/buildWithParameters"
