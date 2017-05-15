@@ -31,7 +31,7 @@ class MyGeneDumper(HTTPDumper):
 
         self.params = dict(q="__all__", species=taxids, entrezonly="true", size="1000",
                       fields="entrezgene,ensembl,locus_tag,genomic_pos,name,other_names,symbol,uniprot,refseq,taxid," +
-                             "type_of_gene,genomic_pos_hg19,HGNC,homologene,MGI,RGD,SGD,FLYBASE,WormBase,ZFIN")
+                             "type_of_gene,genomic_pos_hg19,HGNC,homologene,MGI,RGD,SGD,FLYBASE,WormBase,ZFIN,alias")
 
 
     def create_todump_list(self, force=False):
