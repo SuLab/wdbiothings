@@ -26,12 +26,12 @@ class MyGeneDumper(HTTPDumper):
         df = get_ref_microbe_taxids()
         ref_taxids = list(map(str, df['taxid'].tolist()))
         taxids = ['3702', '559292', '123', '10090', '9606', '10116', '243161', '10116', '7227','6239','7955',
-                  '515635', '765698', '525903', '759362', '565050', '446465', '9545'] + ref_taxids
+                  '515635', '765698', '525903', '759362', '565050', '446465', '9545', '9913'] + ref_taxids
         taxids = ",".join(set(taxids))
 
         self.params = dict(q="__all__", species=taxids, entrezonly="true", size="1000",
                       fields="entrezgene,ensembl,locus_tag,genomic_pos,name,other_names,symbol,uniprot,refseq,taxid," +
-                             "type_of_gene,genomic_pos_hg19,HGNC,homologene,MGI,RGD,SGD,FLYBASE,WormBase,ZFIN,alias")
+                             "type_of_gene,genomic_pos_hg19,HGNC,homologene,MGI,RGD,SGD,FLYBASE,WormBase,ZFIN,BGD,alias")
 
 
     def create_todump_list(self, force=False):
