@@ -24,7 +24,14 @@ def get_latest_release():
     """
     url = "https://api.github.com/repos/DiseaseOntology/HumanDiseaseOntology/contents/src/ontology/releases"
     res = requests.get(url).json()
-    latest_release = max(res, key=lambda x: datetime.strptime(x['name'], '%Y-%m-%d'))['name']
+    res = [r for r in res if r['type'] == 'dir']
+    dates = []
+    for r in res:
+        try:
+            dates.append(datetime.strptime(r['name'], '%Y-%m-%d'))
+        except Exception as e:
+            print(e)
+    latest_release = max(dates).strftime("%Y-%m-%d")
     return latest_release
 
 
