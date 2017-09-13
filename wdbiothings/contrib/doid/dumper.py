@@ -50,8 +50,8 @@ class DoidDumper(HTTPDumper):
             print("Downloading DOID: {}".format(self.latest_release))
             self.logger.info("Downloading DOID: {}".format(self.latest_release))
             self.release = self.latest_release
-            self.to_dump = [{'remote': 'http://purl.obolibrary.org/obo/doid/releases/{}/doid.owl'.format(self.latest_release),
-                             'local': os.path.join(self.new_data_folder, "doid/doid.owl")}]
+            self.to_dump = [{'remote': 'http://purl.obolibrary.org/obo/doid/releases/{}/doid.json'.format(self.latest_release),
+                             'local': os.path.join(self.new_data_folder, "doid/doid.json")}]
         else:
             print("Skipping DOID: {}".format(self.latest_release))
             self.logger.info("Skipping DOID: {}".format(self.latest_release))
