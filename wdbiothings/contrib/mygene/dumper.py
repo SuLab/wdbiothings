@@ -48,7 +48,7 @@ class MyGeneDumper(HTTPDumper):
 
     def remote_is_newer(self):
         mygene_metadata = requests.get("http://mygene.info/v3/metadata").json()
-        self.new_timestamp = du.parse(mygene_metadata['timestamp'])
+        self.new_timestamp = du.parse(mygene_metadata['build_date'])
         if self.current_timestamp is None or self.new_timestamp > self.current_timestamp:
             return True
 
