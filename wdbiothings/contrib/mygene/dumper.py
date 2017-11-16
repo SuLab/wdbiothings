@@ -62,7 +62,8 @@ class MyGeneDumper(HTTPDumper):
         self.prepare_local_folders(localfile)
         self.logger.debug("Downloading '%s'" % remoteurl)
 
-        mg = MyGeneInfo()
+        # TODO: url is temporary workaround for scroll_id issue with mygene
+        mg = MyGeneInfo(url='http://52.36.133.79/v3')
         params = self.params
         q = mg.query(params['q'], fields=params['fields'], species=params['species'],
                      size=1000, fetch_all=True, entrezonly=True)
