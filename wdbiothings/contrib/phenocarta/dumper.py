@@ -14,7 +14,7 @@ biothings.config_for_app(config)
 
 
 def get_latest_release():
-    url = "http://www.chibi.ubc.ca/Gemma/rest/phenotype/find-all-dumps"
+    url = "https://gemma.msl.ubc.ca/rest/phenotypes/dumps"
     res = requests.get(url).json()
     gwas = [x for x in res if x['name'] == 'GWAS_Catalog'][0]
     latest_release = gwas['modified'].split()[0]
@@ -36,7 +36,7 @@ class PhenocartaGWASDumper(HTTPDumper):
             print("Downloading Phenocarta GWAS: {}".format(self.latest_release))
             self.logger.info("Downloading Phenocarta GWAS: {}".format(self.latest_release))
             self.release = self.latest_release
-            self.to_dump = [{'remote': 'http://www.chibi.ubc.ca/Gemma/phenocarta/LatestEvidenceExport/AnnotationsByDataset/GWAS_Catalog.tsv',
+            self.to_dump = [{'remote': 'https://gemma.msl.ubc.ca/phenocarta/LatestEvidenceExport/AnnotationsByDataset/GWAS_Catalog.tsv',
                              'local': os.path.join(self.new_data_folder, "phenocarta/GWAS_Catalog.tsv")}]
         else:
             print("Skipping Phenocarta GWAS: {}".format(self.latest_release))
