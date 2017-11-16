@@ -16,7 +16,7 @@ biothings.config_for_app(config)
 def get_latest_release():
     url = "https://gemma.msl.ubc.ca/rest/phenotypes/dumps"
     res = requests.get(url).json()
-    gwas = [x for x in res if x['name'] == 'GWAS_Catalog'][0]
+    gwas = [x for x in res['data'] if x['name'] == 'GWAS_Catalog'][0]
     latest_release = gwas['modified'].split()[0]
     return latest_release
 
