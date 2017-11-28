@@ -64,7 +64,7 @@ def parse_protein_ipr(data_folder, ipr_items, debug=False):
     d = {}
     p2ipr = map(lambda x: x.decode('utf-8').rstrip().split('\t'), p)
     n = 0
-    for key, lines in tqdm(groupby(p2ipr, key=lambda x: x[0]), total=51536456, miniters=1000000):
+    for key, lines in tqdm(groupby(p2ipr, key=lambda x: x[0]), total=52000000, miniters=1000000):
         # the total is just for a time estimate. Nothing bad happens if the total is wrong
         n += 1
         if debug and n > 1000:
@@ -78,13 +78,13 @@ def parse_protein_ipr(data_folder, ipr_items, debug=False):
         # group list of domain in a protein by ipr
         prot_items = [ipr_items[x] for x in set(x['interpro_id'] for x in protein)]
         # Of all families, which one is the most precise? (remove families that are parents of any other family in this list)
-        families = [x for x in prot_items if x['type'] == "Family"]
+        families = [x for x in prot_items if x['type'] in {"Family", "Homologous_superfamily"}]
         families_id = set(x['id'] for x in families)
         parents = set(family['parent'] for family in families if 'parent' in family)
         # A protein be in multiple families. ex: http://www.ebi.ac.uk/interpro/protein/A0A0B5J454
         specific_families = families_id - parents
-        has_part = [x['id'] for x in prot_items if x['type'] != "Family"]
-        yield {'_id': key, 'subclass': list(specific_families), 'has_part': list(has_part)}
+        has_part = [x['id'] for x in prot_items if x['type'] not in {"Family", "Homologous_superfamily"}]
+        yield {'_id': key, 'part_of': list(specific_families), 'has_part': list(has_part)}
 
 
 """
