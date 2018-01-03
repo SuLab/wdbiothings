@@ -64,7 +64,7 @@ def parse_protein_ipr(data_folder, ipr_items, debug=False):
     d = {}
     p2ipr = map(lambda x: x.decode('utf-8').rstrip().split('\t'), p)
     n = 0
-    for key, lines in tqdm(groupby(p2ipr, key=lambda x: x[0]), total=52000000, miniters=1000000):
+    for key, lines in tqdm(groupby(p2ipr, key=lambda x: x[0]), total=80362872, miniters=1000000):
         # the total is just for a time estimate. Nothing bad happens if the total is wrong
         n += 1
         if debug and n > 1000:
